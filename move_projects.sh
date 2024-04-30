@@ -29,7 +29,7 @@ move_projects() {
 # Gets user input
 read -p "Enter the Billing Account ID you'd like to move your projects to! (e.g., 0X0X0X-0X0X0X-0X0X0X): " billing_account
 
-# Checks the if Billing Account ID has the correct format
+# Checks if the Billing Account ID has the correct format
 if [[ ! "$billing_account" =~ ^[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}$ ]]; then
   echo "Error: Invalid Billing Account ID format."
   exit 1
@@ -43,5 +43,5 @@ if [[ ! -f "$project_file" || ! -r "$project_file" ]]; then
   exit 1
 fi
 
-# Call the function to move projects
+# Calls the function to move projects
 move_projects "$billing_account" "$project_file"
