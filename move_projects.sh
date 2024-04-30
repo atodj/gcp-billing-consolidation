@@ -7,6 +7,15 @@ move_projects() {
 
   while IFS= read -r project_id; do
     project_id=$(echo "$project_id" | tr -d ' ')  # Remove leading/trailing whitespace
+
+    # Check if the project is already linked to the billing account
+    current_billing_account=$(gcloud beta billing projects describe "$project_id" --format="value(billingAccountName)")
+    if [[ "$current_billing_account" == "$billing_account" ]]; then
+      echo "Project $project_id is already linked to billing account $billing_account. Skipping..."
+      continue
+    fi
+
+    # Move the project if it's not already linked
     gcloud billing projects link "$project_id" --billing-account="$billing_account"
     if [[ $? -ne 0 ]]; then
       echo "Error moving project $project_id"
